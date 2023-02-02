@@ -1,0 +1,35 @@
+stages :
+  - install
+  - test
+  - before_deploy
+  - deploy
+
+variables:
+  HEROKU_APP_NAME: sheltered-sea-18711
+  HEROKU_APP_KEY: b07e17a1-c617-480c-ad0d-97663d10d508
+
+dependencies:
+  stage: install
+  image: node:12-alpine
+  script:
+    - npm install
+
+test: 
+  stage: test
+  image: trion/ng-cli-karma
+  allow_failure: true
+  script: 
+    - npm install
+    - ng test --progress false --watch false
+
+before_deploy:
+  script : 
+    - gem install faraday-net_http -v 2.1.0
+
+deploy:
+  stage: deploy
+  script: 
+    - apt-get update -qy
+    - apt-get install -y ruby-dev
+    - gem install dpl
+    - dpl --provider=heroku --app=sheltered-sea-18711 --api-key=b07e17a1-c617-480c-ad0d-97663d10d508
