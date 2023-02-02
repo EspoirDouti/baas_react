@@ -34,18 +34,23 @@ function App() {
 
   const register = async () => {
     try {
+
+      //Google Analytics Event
+      ReactGA.event({
+        categorie:"authentication",
+        action:"register",
+        label:"label",
+        value:"valeur"
+      });
+      //Google Analytics Event 
+
       const user = await createUserWithEmailAndPassword(
         auth,
         registerEmail,
         registerPassword
       );
 
-      //Google Analytics Event
-      ReactGA.event({
-        categorie:"register",
-        email:registerEmail
-      });
-      //Google Analytics Event
+      
 
       console.log(user);
       // ReactGA.event({ 
