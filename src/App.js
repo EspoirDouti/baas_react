@@ -68,6 +68,14 @@ function App() {
 
   const login = async () => {
     try {
+      //Google Analytics Event
+      ReactGA.event({
+        categorie:"authentication",
+        action:"login",
+        label:"label",
+        value:"valeur"
+      });
+      //Google Analytics Event 
       const user = await signInWithEmailAndPassword(
         auth,
         loginEmail,
