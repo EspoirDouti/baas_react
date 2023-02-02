@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -7,6 +7,10 @@ import {
 } from "firebase/auth";
 import "./App.css";
 import { auth } from "./firebase-config";
+import ReactGA from "react-ga";
+const TRACKING_ID = "UA-161453962-3";
+
+ReactGA.initialize(TRACKING_ID);
 
 
 function App() {
@@ -21,6 +25,13 @@ function App() {
     setUser(currentUser);
   });
 
+  //Google Analytics PageView
+  useEffect(()=>{
+    ReactGA.pageview(window.location.pathname);
+  },[])
+//Google Analytics PageView
+
+
   const register = async () => {
     try {
       const user = await createUserWithEmailAndPassword(
@@ -28,6 +39,14 @@ function App() {
         registerEmail,
         registerPassword
       );
+
+      //Google Analytics Event
+      ReactGA.event({
+        categorie:"register",
+        email:registerEmail
+      });
+      //Google Analytics Event
+
       console.log(user);
       // ReactGA.event({ 
       //   catégorie : 'Utilisateur', 
